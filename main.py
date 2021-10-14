@@ -3,8 +3,7 @@ import sys
 sys.path.append('./src')
 
 from digits import digits_data
-from vendor.Model import Model 
-from iris import iris_data
+from Model import Model 
 from digits import digits_data
 import matplotlib.pyplot as plt
 
@@ -13,14 +12,8 @@ def __main__():
 	testing_data	= dict()
 	dimensions 		= tuple()
 
-	#model = "xor"
-	model = "iris"
 	model = "digits"
-	
 
-	if model == "iris":
-		traning_data = iris_data()
-		dimensions = traning_data["dimensions"]
 	if model == "digits":
 		traning_data,testing_data, all_data, dimensions = digits_data()
 		print("all_data input length", len(all_data["inputs"]))
