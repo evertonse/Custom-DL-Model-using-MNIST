@@ -8,7 +8,7 @@ Contains notebook for displaying MNIST data set for training, and testing
 
 ### Optional:
 - Run main.py
-- 
+
 ### Might Need:
  - pip install requests
  - pip install pickle
