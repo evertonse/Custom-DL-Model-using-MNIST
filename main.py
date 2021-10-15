@@ -47,8 +47,8 @@ def __main__():
 	epochs = 1
 	model_filename = "model_128x128"
 
-	#model  = Model((784,128,128,10), activation="sigmoid", verbose=0, wr=(-0.5,0.5))
-	model = Model.load("./models/" + model_filename)
+	model  = Model((784,128,128,10), activation="sigmoid", verbose=0, wr=(-0.5,0.5))
+	#model = Model.load("./models/" + model_filename)
 
 	print("\n> Model Started Training...\n")
 				
