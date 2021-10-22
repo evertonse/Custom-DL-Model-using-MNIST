@@ -1,3 +1,4 @@
+from PIL.Image import NONE
 import numpy as np					# Math
 import matplotlib.pyplot as plt	# Gráficos
 import pickle							# Serialização 
@@ -99,10 +100,10 @@ class Model:
 		self.Ws = list()
 		self.Bs = list()
 		for i in range(len(dimensions)-1):
-			self.Ws.append(np.random.uniform(size=(dimensions[i], dimensions[i+1]))*(wr[1]-wr[0]) + wr[0])
+			self.Ws.append(np.random.uniform(wr[0],wr[1], size=(dimensions[i], dimensions[i+1])))
 
 		for i in range(len(dimensions)-1):
-			self.Bs.append(np.random.uniform(size=(1, dimensions[i+1]))*(wr[1]-wr[0]) + wr[0])
+			self.Bs.append(np.random.uniform(wr[0],wr[1], size=(1, dimensions[i+1])))
 
 	# Passamos os dados pela network e setamos um Y = output
 
@@ -170,6 +171,8 @@ class Model:
 		self.__adjust_wheights(output,lr)
 
 	def train(self, inputs , outputs, lr:int, epochs:int,shuffle=True, autosave=False):
+		if epochs < 1:
+			return
 		for i in range(epochs):
 			# Damos um shuffle nos dados mantendo output e input pareado
 			X,Y = inputs, outputs
@@ -194,7 +197,7 @@ class Model:
 				if i % 20 == 0:
 					self.save(f"Model{i/20}")
 					print(f">epoch:{i}th, auto saved in : " + f"Model{i/20}")
-
+		
 			# A cada epoch calculo a media do erro de cada set de treinamento
 			self.epoch_losses.append(np.sum(self.losses)/len(self.losses))
 			predicts = list()
@@ -265,9 +268,18 @@ class Model:
 		plt.show()
 
 	# Utiliza Pickle para Salvar
-	def save(self,filename):
+	def save(self,filename,compact=False):
+		temp_list= list()
 		with open(filename + ".pickle", "wb") as file:
+			if compact == True:
+				temp_list = [self.epoch_losses,self.losses,self.accuracies]
+				self.epoch_losses = self.epoch_losses
+				self.losses = [self.losses[-1]]
+				self.accuracies = [self.accuracies[-1]]
 			pickle.dump(self, file)
+		if compact == True:
+			self.epoch_losses, self.losses,self.accuracies = temp_list
+		print("> model saved in: ",filename)
 	
 	# Utiliza Pickle dar Load
 	def load(filename):

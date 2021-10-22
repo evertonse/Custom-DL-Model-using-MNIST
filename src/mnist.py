@@ -20,12 +20,12 @@ def load_mnist_data():
 	Y_test = fetch("http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz")[8:]
 
 	training_data60k = {
-		"inputs": np.array(X)/255.0,
+		"inputs": np.array(X),
 		"outputs":np.array([np.array([y == int(label) for y in  range(10)]).astype(int) for label in Y])
 	}
 
 	testing_data10k = {
-		"inputs": np.array(X_test)/255.0,
+		"inputs": np.array(X_test),
 		"outputs":np.array([np.array([y == int(label) for y in  range(10)]).astype(int) for label in Y_test])
 	}
 
